@@ -1,25 +1,25 @@
 import { Text, View } from "react-native";
-
+import { Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Link } from "expo-router";
+import "@/global.css";
+import { Stack } from "expo-router";
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          color: "red",
-          fontSize: 30,
+    <SafeAreaView className="flex-1 bg-white">
+      <Stack.Screen
+        options={{
+          headerShown: false,
         }}
-      >
-        Hello world!
-      </Text>
-    </View>
+      />
+      <View className="flex-1 justify-center items-center">
+        <Link href="/../components/Hello" className="mt-8 p-4  rounded-lg">
+          <Image
+            source={require("../assets/images/mesobe.png")}
+            style={{ width: 300, height: 200 }}
+          />
+        </Link>
+      </View>
+    </SafeAreaView>
   );
 }
