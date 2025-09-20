@@ -1,5 +1,6 @@
 import { View, Image, Text } from "react-native";
 import React from "react";
+import { ScrollView } from "react-native";
 import { Stack } from "expo-router";
 
 interface RecipeCardProps {
@@ -13,12 +14,14 @@ interface RecipeCardProps {
 const RecipeCard = ({ recipe }: RecipeCardProps) => {
   return (
     <View className="flex bg-white rounded-lg m-1 p-8">
-      <Image
-        source={{ uri: recipe.image }}
-        className="w-full h-40 rounded-lg"
-        resizeMode="cover"
-      />
-      <Text className="text-lg font-bold mt-2">{recipe.title}</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Image
+          source={{ uri: recipe.image }}
+          className="w-full h-40 rounded-lg"
+          resizeMode="cover"
+        />
+        <Text className="text-lg font-bold mt-2">{recipe.title}</Text>
+      </ScrollView>
     </View>
   );
 };

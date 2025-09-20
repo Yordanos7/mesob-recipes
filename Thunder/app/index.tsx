@@ -1,58 +1,58 @@
-import React, { useEffect, useState } from "react";
 import {
-  View,
   Text,
+  View,
+  TextInput,
   FlatList,
-  ActivityIndicator,
-  SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
-import { Stack } from "expo-router";
-import { fetchRecipes } from "./services/api";
-import RecipeCard from "./components/RecipeCard";
-import { RecipeSummery } from "./types/recipe";
+import { Image, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Link, router } from "expo-router";
 import "@/global.css";
-
+import { fetchRecipes } from "./services/api";
+import { Stack } from "expo-router";
+import { useState } from "react";
+import { RecipeSummery } from "./types/recipe";
+import RecipeCard from "./components/RecipeCard";
 export default function Index() {
   const [recipes, setRecipes] = useState<RecipeSummery[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [query, setQuery] = useState("");
 
-  useEffect(() => {
-    const getRecipes = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchRecipes("chicken");
-        setRecipes(data);
-      } catch (error) {
-        console.error("Failed to fetch recipes:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const onSearch = async () => {
+    try {
+      if (!query) return;
+      const result = await fetchRecipes(query);
+      setRecipes(result);
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
+  };
 
-    getRecipes();
-  }, []);
-
-  if (loading) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
+  const goToDetails = (id: number) => {
+    // here is what am sey naviget to detail page
+    router.push(`/${id}`);
+  };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
+    <View className="flex-1 p-4 bg-white">
+      <TextInput
+        placeholder="Search recipes..."
+        value={query}
+        onChangeText={setQuery}
+        onSubmitEditing={onSearch}
+        className="border p-2 rounded mb-4 border-e-red-700"
       />
-      <FlatList
-        data={recipes}
-        renderItem={({ item }) => <RecipeCard recipe={item} />}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-      />
-    </SafeAreaView>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <FlatList
+          data={recipes}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => goToDetails(item.id)}>
+              <RecipeCard recipe={item} />
+            </TouchableOpacity>
+          )}
+        />
+      </ScrollView>
+    </View>
   );
 }

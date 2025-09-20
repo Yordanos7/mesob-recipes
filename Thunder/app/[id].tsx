@@ -5,6 +5,7 @@ import { RecipeDetails } from "./types/recipe";
 import { fetchRecipeDetails } from "./services/api";
 import RecipeCard from "./components/RecipeCard";
 import useFavorites from "./hooks/useFavorites";
+import IngredientList from "./components/IngredientList";
 export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
@@ -66,6 +67,7 @@ export default function RecipeDetailScreen() {
   return (
     <ScrollView>
       <RecipeCard recipe={recipe} />
+      <IngredientList ingerdients={recipe.ingredients} />
     </ScrollView>
   );
 }
