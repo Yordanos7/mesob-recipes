@@ -1,13 +1,45 @@
-import { Text, View } from "react-native";
-import { Image } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
-import "@/global.css";
-import { fetchRecipes } from "./services/api";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  SafeAreaView,
+} from "react-native";
 import { Stack } from "expo-router";
+import { fetchRecipes } from "./services/api";
+import RecipeCard from "./components/RecipeCard";
+import { RecipeSummery } from "./types/recipe";
+import "@/global.css";
+
 export default function Index() {
-  const recipes = fetchRecipes("chicken");
-  console.log(recipes);
+  const [recipes, setRecipes] = useState<RecipeSummery[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const getRecipes = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchRecipes("chicken");
+        setRecipes(data);
+      } catch (error) {
+        console.error("Failed to fetch recipes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getRecipes();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Stack.Screen
@@ -15,14 +47,12 @@ export default function Index() {
           headerShown: false,
         }}
       />
-      <View className="flex-1 justify-center items-center">
-        <Link href="/../components/RecipeCard" className="mt-8 p-4  rounded-lg">
-          <Image
-            source={require("../assets/images/mesobe.png")}
-            style={{ width: 300, height: 200 }}
-          />
-        </Link>
-      </View>
+      <FlatList
+        data={recipes}
+        renderItem={({ item }) => <RecipeCard recipe={item} />}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+      />
     </SafeAreaView>
   );
 }

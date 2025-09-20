@@ -1,12 +1,12 @@
 export interface RecipeSummery {
   id: string;
-  titel: string;
+  title: string;
   image: string;
 }
 
 export interface RecipeDetails {
   id: number;
-  titel: string;
+  title: string;
   image: string;
   extendedIngredients: {
     id: number;

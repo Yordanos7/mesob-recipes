@@ -17,3 +17,15 @@ export async function fetchRecipes(query: string): Promise<RecipeSummery[]> {
     return [];
   }
 }
+
+export async function fetchRecipeDetails(id: string) {
+  const url = `${BASE_URL}/${id}/information?apiKey=${SPOONACULAR_API_KEY}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(`Failed to fetch recipe details for id ${id}:`, error);
+    return error;
+  }
+}
