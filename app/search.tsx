@@ -54,15 +54,21 @@ const search = () => {
             className="border-red-400 p-2 rounded mb-4 bg-orange-200"
           />
 
-          <FlatList
-            data={recipes}
-            keyExtractor={(item) => item.idMeal}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => goToDetails(item.idMeal)}>
-                <RecipeCard recipe={item} />
-              </TouchableOpacity>
-            )}
-          />
+          {recipes.length > 0 ? (
+            <FlatList
+              data={recipes}
+              keyExtractor={(item) => item.idMeal}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => goToDetails(item.idMeal)}>
+                  <RecipeCard recipe={item} />
+                </TouchableOpacity>
+              )}
+            />
+          ) : (
+            <Text className="text-red-400 text-center">
+              No recipes found for "{query}"
+            </Text>
+          )}
         </View>
       </ScrollView>
     </View>
