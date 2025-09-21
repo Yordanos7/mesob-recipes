@@ -35,7 +35,7 @@ const search = () => {
   };
 
   return (
-    <View className="flex-1 p-4 bg-white ">
+    <View className="flex-1 p-4  bg-orange-100">
       <Stack.Screen
         options={{
           headerShown: false,
@@ -51,7 +51,7 @@ const search = () => {
             value={query}
             onChangeText={setQuery}
             onSubmitEditing={onSearch}
-            className="border p-2 rounded mb-4 border-e-red-700"
+            className="border-red-400 p-2 rounded mb-4 bg-orange-200"
           />
 
           <FlatList

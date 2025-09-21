@@ -14,6 +14,7 @@ import { Stack } from "expo-router";
 import { useState } from "react";
 import { RecipeSummery } from "./types/recipe";
 import RecipeCard from "./components/RecipeCard";
+// Removed duplicate import of Link
 export default function Index() {
   const [recipes, setRecipes] = useState<RecipeSummery[]>([]);
   const [query, setQuery] = useState("");
@@ -34,36 +35,18 @@ export default function Index() {
   };
 
   return (
-    <View className="flex-1 p-4 bg-white ">
+    <View className="flex-1 p-4 bg-orange-400 align-center items-center">
       <Stack.Screen
         options={{
           headerShown: false,
         }}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View className="my-10">
-          <Text className="text-2xl font-bold mb-2 text-orange-400 ">
-            Find your recipe
-          </Text>
-          <TextInput
-            placeholder="Search recipes..."
-            value={query}
-            onChangeText={setQuery}
-            onSubmitEditing={onSearch}
-            className="border p-2 rounded mb-4 border-e-red-700"
-          />
-
-          <FlatList
-            data={recipes}
-            keyExtractor={(item) => item.idMeal}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => goToDetails(item.idMeal)}>
-                <RecipeCard recipe={item} />
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-      </ScrollView>
+      <Link href="/search" className="mt-8 p-4  rounded-lg">
+        <Image
+          source={require("../assets/images/mesobe.png")}
+          style={{ width: 300, height: 200, marginTop: 70 }}
+        />
+      </Link>
     </View>
   );
 }
