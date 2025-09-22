@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 2a096daf994f373a21eac1bea8aadce4d4f71638 yordanos <yordanosyohans7@gmail.com> 1757949831 +0300	commit (initial): Initial commit
+2a096daf994f373a21eac1bea8aadce4d4f71638 e35e63cbc6a9e978042da8ed3b0bf032741c9e3a yordanos <yordanosyohans7@gmail.com> 1758453189 +0300	commit: i try to mak the search separete
+e35e63cbc6a9e978042da8ed3b0bf032741c9e3a e35e63cbc6a9e978042da8ed3b0bf032741c9e3a yordanos <yordanosyohans7@gmail.com> 1758453485 +0300	Branch: renamed refs/heads/master to refs/heads/main
+e35e63cbc6a9e978042da8ed3b0bf032741c9e3a f026e5e6fa36ef5506678ef4fa2293d9a3848bfa yordanos <yordanosyohans7@gmail.com> 1758455285 +0300	commit: this 4th commit
+f026e5e6fa36ef5506678ef4fa2293d9a3848bfa 4baa44671870b8613cadb5f449ab54bd55f27ddd yordanos <yordanosyohans7@gmail.com> 1758458015 +0300	commit: this is 4th commit
+4baa44671870b8613cadb5f449ab54bd55f27ddd 0977edb86fa5f37876d27fedaa7c69ce5f727a28 yordanos <yordanosyohans7@gmail.com> 1758459416 +0300	pull origin main --rebase (finish): refs/heads/main onto 12687b9cca4b6fa25e0eb597d90e3afbfdad77c1

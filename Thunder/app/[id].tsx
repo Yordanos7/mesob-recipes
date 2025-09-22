@@ -1,23 +1,25 @@
 import { useRouter, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+} from "react-native";
 import { RecipeDetails } from "./types/recipe";
 import { fetchRecipeDetails } from "./services/api";
 import RecipeCard from "./components/RecipeCard";
 import useFavorites from "./hooks/useFavorites";
-import IngredientList from "./components/IngredientList";
+import { Stack } from "expo-router";
 export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const [recipe, setRecipe] = useState<RecipeDetails | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // here i will build custom hook for managing the fav's
-
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
-  const isFavorite = favorites.some((f) => f.id === Number(id));
-
-  // here i place for set hook
+  const isFavorite = favorites.some((f) => f.idMeal === id);
 
   useEffect(() => {
     const getRecipeDetails = async () => {
@@ -42,7 +44,7 @@ export default function RecipeDetailScreen() {
   const toggleFavorite = () => {
     if (!recipe) return;
     if (isFavorite) {
-      removeFromFavorites(Number(id));
+      removeFromFavorites(recipe.idMeal);
     } else {
       addToFavorites(recipe);
     }
@@ -65,9 +67,19 @@ export default function RecipeDetailScreen() {
   }
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
       <RecipeCard recipe={recipe} />
-      <IngredientList ingerdients={recipe.ingredients} />
+      <TouchableOpacity onPress={toggleFavorite} className="p-4">
+        <Text className="text-center text-blue-500">
+          {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+        </Text>
+      </TouchableOpacity>
+      <Text className="p-4">{recipe.strInstructions}</Text>
     </ScrollView>
   );
 }

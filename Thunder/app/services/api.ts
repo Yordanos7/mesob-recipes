@@ -1,17 +1,19 @@
-import { RecipeDetails, RecipeSummery } from "../types/recipe";
+const BASE_URL = "https://www.themealdb.com/api/json/v1/1/";
 
-import Constants from "expo-constants";
-const SPOONACULAR_API_KEY = Constants.expoConfig?.extra?.spoonacularApiKey;
-const BASE_URL = "https://api.spoonacular.com/recipes";
-
-// first i will create the function for fetchrecipes
-export async function fetchRecipes(query: string): Promise<RecipeSummery[]> {
+export async function fetchRecipes(query: string) {
   if (!query) return [];
-  const url = `${BASE_URL}/complexSearch?query=${encodeURIComponent(query)}&number=10&apiKey=${SPOONACULAR_API_KEY}`;
+
+  const url = `${BASE_URL}search.php?s=${encodeURIComponent(query)}`;
+
   try {
     const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
     const data = await response.json();
-    return data.results || [];
+    return data.meals || [];
   } catch (error) {
     console.error("Error fetching recipes:", error);
     return [];
@@ -19,13 +21,21 @@ export async function fetchRecipes(query: string): Promise<RecipeSummery[]> {
 }
 
 export async function fetchRecipeDetails(id: string) {
-  const url = `${BASE_URL}/${id}/information?apiKey=${SPOONACULAR_API_KEY}`;
+  if (!id) return null;
+
+  const url = `${BASE_URL}lookup.php?i=${id}`;
+
   try {
     const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
     const data = await response.json();
-    return data;
+    return data.meals ? data.meals[0] : null;
   } catch (error) {
-    console.log(`Failed to fetch recipe details for id ${id}:`, error);
-    return error;
+    console.error("Error fetching recipe details:", error);
+    return null;
   }
 }

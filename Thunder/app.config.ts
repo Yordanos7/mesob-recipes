@@ -10,3 +10,4 @@ export default {
     },
   },
 };
+console.log("API Key loaded:", process.env.SPOONACULAR_API_KEY);

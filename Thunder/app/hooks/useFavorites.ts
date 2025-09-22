@@ -32,7 +32,7 @@ export default function useFavorites() {
     }
   };
   const addToFavorites = (recipe: RecipeDetails) => {
-    const exists = favorites.find((fav) => fav.id === recipe.id);
+    const exists = favorites.find((fav) => fav.idMeal === recipe.idMeal);
     if (!exists) {
       const newFavorites = [...favorites, recipe];
       saveFavorites(newFavorites);
@@ -42,8 +42,8 @@ export default function useFavorites() {
   };
 
   // here in remove function for recipe you can use if and else
-  const removeFromFavorites = (id: number) => {
-    const newFavorites = favorites.filter((fav) => fav.id !== id);
+  const removeFromFavorites = (id: string) => {
+    const newFavorites = favorites.filter((fav) => fav.idMeal !== id);
     saveFavorites(newFavorites);
   };
 
